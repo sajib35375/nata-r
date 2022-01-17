@@ -26,50 +26,24 @@
         <div class="bn-label" style="background: rgb(249, 6, 0);">NATA News</div>
         <div class="bn-news" style="left: 102.562px; right: 90px;">
             <ul style="width: 4898.24px; margin-left: -114px;">
+
+                @php
+
+                    $notices = \App\Models\Post::where('notice',1)->get();
+
+                @endphp
+                @foreach($notices as $notice)
                 <li>
                     <a class="buletinLink" href="http://localhost/buletin/12">
                         <span class="bn-seperator" style="background-image: url('public/img/rsz_core.png'); height: 40px;"></span>
 
-                        ২১-২৫ নভেম্বর ২০২১ পর্যন্ত Soil Health Management বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।
+                        {{ $notice->title }}
                     </a>
                 </li>
 
-                <li>
-                    <a class="buletinLink" href="http://localhost/buletin/14">
-                        <span class="bn-seperator" style="background-image: url('public/img/rsz_core.png'); height: 40px;"></span>
+                @endforeach
 
-                        ২৪ অক্টোবর - ২ নভেম্বর ২০২১ পর্যন্ত "Public Procurement Procedure" বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে। মনোনীত প্রশিক্ষনার্থীদেরকে tmis.nata.gov.bd তে অনলাইন রেজি. সম্পন্ন করার জন্য অনুরোধ করা হলো।
-                    </a>
-                </li>
 
-                <li>
-                    <a class="buletinLink" href="http://localhost/buletin/15">
-                        <span class="bn-seperator" style="background-image: url('public/img/rsz_core.png'); height: 40px;"></span>
-
-                        ২৮ নভেম্বর-২ ডিসেম্বর ২০২১ পর্যন্ত Food Security &amp; Food Safety বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।
-                    </a>
-                </li>
-                <li>
-                    <a class="buletinLink" href="http://localhost/buletin/8">
-                        <span class="bn-seperator" style="background-image: url('public/img/rsz_core.png'); height: 40px;"></span>
-
-                        ২৮ নভেম্বর-৭ ডিসেম্বর ২০২১ পর্যন্ত Seed Technology বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।
-                    </a>
-                </li>
-                <li>
-                    <a class="buletinLink" href="http://localhost/buletin/9">
-                        <span class="bn-seperator" style="background-image: url('public/img/rsz_core.png'); height: 40px;"></span>
-
-                        ৭-১১ নভেম্বর ২০২১ পর্যন্ত Rules &amp; Regulations for Organizational Management বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।
-                    </a>
-                </li>
-                <li>
-                    <a class="buletinLink" href="http://localhost/buletin/10">
-                        <span class="bn-seperator" style="background-image: url('public/img/rsz_core.png'); height: 40px;"></span>
-
-                        ২৪ অক্টোবর - ২ নভেম্বর ২০২১ পর্যন্ত Project Appraisal and Formulation of DPP বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।
-                    </a>
-                </li>
             </ul>
         </div>
         <div class="bn-controls newsbt" style="color: #fff;">
@@ -80,7 +54,7 @@
     </div>
     <nav class="navbar navbar-default container drop-shadow">
         <ul class="nav navbar-nav">
-            <li><a href="http://localhost/nata">Home</a></li>
+            <li><a href="{{ route('home') }}">Home</a></li>
             <li class="dropdown">
                 <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
                     <span class="nav-label">About<span class="caret"></span> </span>
@@ -89,12 +63,12 @@
                     <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown"> </a>
                     <li>
                         <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown"></a>
-                        <a href="http://tmis.nata.gov.bd/location">Location</a>
+                        <a href="{{ route('show.location') }}">Location</a>
                     </li>
 
-                    <li><a href="http://tmis.nata.gov.bd/back-ground-history-of-nata">Background/History</a></li>
+                    <li><a href="{{ route('show.background') }}">Background/History</a></li>
 
-                    <li><a href="http://tmis.nata.gov.bd/vision-and-mission">Vision &amp; Mission</a></li>
+                    <li><a href="{{ route('show.vision') }}">Vision &amp; Mission</a></li>
 
                     <li class="dropdown">
                         <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
@@ -104,18 +78,18 @@
                             <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown"> </a>
                             <li>
                                 <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown"></a>
-                                <a href="http://tmis.nata.gov.bd/core-functions-of-nata">Core Functions of NATA</a>
+                                <a href="{{ route('core.function') }}">Core Functions of NATA</a>
                             </li>
 
-                            <li><a href="http://tmis.nata.gov.bd/core-values-of-nata">Core Values of NATA</a></li>
+                            <li><a href="{{ route('core.value') }}">Core Values of NATA</a></li>
 
-                            <li><a href="http://tmis.nata.gov.bd/current-activities-of-nata">Current Activities od NATA</a></li>
+                            <li><a href="{{ route('show.activity') }}">Current Activities od NATA</a></li>
                         </ul>
                     </li>
 
-                    <li><a href="http://tmis.nata.gov.bd/stakeholders">Stakeholders</a></li>
+                    <li><a href="{{ route('show.stackholder') }}">Stakeholders</a></li>
 
-                    <li><a href="http://tmis.nata.gov.bd/organogram-of-nata">Organogram of NATA</a></li>
+                    <li><a href="{{ route('show.organogram') }}">Organogram of NATA</a></li>
 
                     <li class="dropdown">
                         <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
@@ -125,10 +99,10 @@
                             <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown"> </a>
                             <li>
                                 <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-hover="dropdown"></a>
-                                <a href="http://tmis.nata.gov.bd/statistics-of-civil-officers-and-staff">Statistics of Civil Officers and Staff</a>
+                                <a href="{{ route('show.statistic') }}">Statistics of Civil Officers and Staff</a>
                             </li>
 
-                            <li><a href="http://tmis.nata.gov.bd/physical-facilities">Physical Facilities</a></li>
+                            <li><a href="{{ route('show.physical') }}">Physical Facilities</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -141,14 +115,14 @@
                     <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" data-hover="dropdown"> </a>
                     <li>
                         <a href="http://tmis.nata.gov.bd/" target="_self" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" data-hover="dropdown"></a>
-                        <a href="http://tmis.nata.gov.bd/importance-of-training">Importance of Training</a>
+                        <a href="{{ route('importance.training') }}">Importance of Training</a>
                     </li>
 
-                    <li><a href="http://tmis.nata.gov.bd/training-methods">Training Methods</a></li>
+                    <li><a href="{{ route('training.methods') }}">Training Methods</a></li>
 
-                    <li><a href="http://tmis.nata.gov.bd/nata-strengthening-project">NATA Strengthening Project</a></li>
+                    <li><a href="{{ route('strenghtening') }}">NATA Strengthening Project</a></li>
 
-                    <li><a href="http://tmis.nata.gov.bd/list-of-resource-personnel">List of Resource Personnel</a></li>
+                    <li><a href="{{ route('resourse.personnel') }}">List of Resource Personnel</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -169,17 +143,17 @@
                     <li><a href="http://tmis.nata.gov.bd/trainees-2016-2017">2016 to 2017</a></li>
                 </ul>
             </li>
-            <li><a href="http://faisalhost.ml/">Training Manual</a></li>
-            <li><a href="{{ route('show.ins') }}">Apply</a></li>
+            <li><a href="{{ route('all.syllabus') }}">Syllabus</a></li>
+            <li><a href="{{ route('show.ins') }}">Registration</a></li>
 
-            <li><a href="http://faisalhost.ml/">Training Manual</a></li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('logout') }}">Logout</a>
-            </li>
+            <li><a href="{{ route('show.notice') }}">All Notice</a></li>
 
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost/nata/register">Register</a>
+                <a class="nav-link" href="{{ route('user.profile') }}">Profile</a>
             </li>
+
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link" href="http://localhost/nata/register"></a>--}}
+{{--            </li>--}}
         </ul>
     </nav>

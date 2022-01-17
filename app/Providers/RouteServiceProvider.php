@@ -20,6 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
     public const DASH = '/admin/dashboard';
     public const CHECK = '/email-verification';
+    public const PROFILE = '/user/profile';
 
     /**
      * The controller namespace for the application.

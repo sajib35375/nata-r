@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Image;
 
 class RegisterController extends Controller
 {
@@ -55,7 +56,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:5', 'confirmed'],
         ]);
     }
 
@@ -65,14 +66,28 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
+
+
+
+        protected function create($request)
+        {
+        $unique_name= '';
+        if ($request->hasFile('photo')){
+            $file = $request->file('photo');
+            $unique_name = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
+            $file->move('img/user/',$unique_name);
+        }
+
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'photo' => $unique_name,
+            'password' => Hash::make($request->password),
         ]);
     }
+
 
     /**
      * The user has been registered.

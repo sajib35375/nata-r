@@ -1,93 +1,109 @@
 @extends('frontend.body.app')
-
 @section('content')
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <main>
 
 
-        <div class="container" style="padding-bottom: 25px; margin-bottom: 10px">
+        <div class="container" style="padding-bottom: 25px; margin-bottom: 10px;">
 
-            <div>
+
                 <legend>
                     <center>
                         <h3><b>Registration Form (Participant)<!--(Student) --> </b></h3>
                     </center>
                 </legend>
+                @if(Session::has('success'))
+                    <p class="alert alert-success">{{ Session::get('success') }}<button class="close" data-dismiss="alert">&times;</button></p>
+                @endif
 
-                <form class="form" method="POST"  action="{{ route('test') }}">
+
+                <form class="form" method="POST"  action="{{ route('apply.store') }}" enctype="multipart/form-data">
                             @csrf
                     <div class="row">
                         <fieldset>
 
+
                             <fieldset class="the-fieldset" style="margin-top: 0px;margin-right: 15px;margin-left: 15px;">
 
-                                <legend class="the-legend"><strong>Course Selection</strong></legend>
+                                <legend class="the-legend"><strong>Course Selection<span class="text-danger">*</span></strong></legend>
+
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
 
                                         <select name="course_id" class="form-control selectpicker">
 
+
                                             <option value="">Please Select Course</option>
 
                                             @foreach ($course as $course_select)
 
-                                                @foreach($course_select->apply->validity as $validity)
-{{--                                                    @dd($course_select->apply)--}}
-                                                @if($validity != null)
-
-                                                    <option {{ $validity > Carbon\Carbon::now()->format('Y-m-d') ? 'disabled' : '' }} value="{{$course_select->id}}">{{$course_select->course_name}}</option>
-
+                                                @if(in_array($course_select->id, $disable_courses_id))
+                                                    <option disabled value="{{$course_select->id}}">{{$course_select->course_name}}</option>
                                                 @else
                                                     <option value="{{$course_select->id}}">{{$course_select->course_name}}</option>
                                                 @endif
-                                                @endforeach
                                             @endforeach
 
                                         </select>
+                                        @error('course_id')
+                                            <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
 
-                                <legend class="the-legend"><strong>Course Session</strong></legend>
+                                <legend class="the-legend"><strong>Batch Number<span class="text-danger">*</span></strong></legend>
+
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
                                         <select name="session_id" class="form-control selectpicker">
-                                            <option value="">Please Select Session</option>
-                                            {{--  @foreach (App\Models\course::orderBy('id','desc')->where('status', 1)->get() as $course_select)--}}
-                                            {{--  <option value="{{$course_select->id}}">{{$course_select->course_name}}</option>--}}
-                                            {{--  @endforeach--}}
+                                            <option value="">Please Select Batch</option>
+
 
                                         </select>
+                                        @error('session_id')
+                                        <p class="text-danger">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <legend class="the-legend"><strong>Personal Information</strong></legend>
+
                                 <div class="col-sm-6">
                                     <div class="form-group ">
-                                        <label>Name</label>
+                                        <label>Name<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-user-edit"></i></span>
                                             <input name="name_en" placeholder="Full Name in English" class="form-control" type="text"  >
+                                            @error('name_en')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Name in Bengali</label>
+                                        <label>Name in Bengali<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-flag"></i></span>
-                                            <input name="name_bn" id="transliteration" placeholder="বাংলায় নাম" class="form-control" type="text"  >
+                                            <input name="name_bn" id="transliteration" placeholder="বাংলায় নাম" class="form-control" type="text">
+                                            @error('name_bn')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Nationa ID</label>
+                                        <label>Nationa ID<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="far fa-id-card"></i></span>
-                                            <input name="nid" placeholder="National ID Number" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="number"  >
+                                            <input name="nid" placeholder="National ID Number" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="number">
+                                            @error('nid')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +112,10 @@
                                         <label>Date of Birth</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-                                            <input name="dob" placeholder="Date of Birth" class="form-control number date" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="date"  >
+                                            <input name="dob" placeholder="Date of Birth" class="form-control number" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="date">
+                                            @error('dob')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +124,10 @@
                                         <label>Mobile Number</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-mobile-alt"></i></span>
-                                            <input name="mobile" placeholder="Ex.: 01512345678" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="number"  >
+                                            <input name="mobile" placeholder="Ex.: 01512345678" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="number">
+                                            @error('mobile')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -115,8 +137,10 @@
                                         <label>Email</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-at"></i></span>
-                                            <input name="email"
-                                                   class="form-control" type="email" value="{{Auth::user()->email}}" readonly>
+                                            <input name="email" class="form-control" type="email">
+                                            @error('email')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -132,6 +156,9 @@
                                                 <option value="Female">Female</option>
                                                 <option value="Others">Others</option>
                                             </select>
+                                            @error('gender')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -148,6 +175,9 @@
                                                 <option value="Divorced">Divorced</option>
                                                 <option value="Widowed">Widowed</option>
                                             </select>
+                                            @error('marital_status')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -166,113 +196,89 @@
                                                 <option value="Tribal">Tribal</option>
                                                 <option value="Others">Others</option>
                                             </select>
+                                            @error('religion')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-3">
 
+                                </div>
                             </fieldset>
                             <fieldset class="the-fieldset" style="margin-top: 20px;margin-right: 15px;margin-left: 15px;">
                                 <legend class="the-legend"><strong>Professional Information</strong></legend>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label>Organization Name</label>
+                                        <label>Organization Name<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-building"></i></span>
-                                            <select name="organization" class="form-control selectpicker">
-                                                <option value="">Please Choose</option>
-                                                <option value="Office 1">Office 1</option>
-                                                <option value="Office 2">Office 2</option>
-                                                <option value="Office 3">Office 3</option>
-                                                <option value="Office 4">Office 4</option>
-                                                <option value="Office 5">Office 5</option>
-                                                <option value="Office 6">Office 6</option>
-                                                <option value="Office 7">Office 7</option>
-                                                <option value="Office 8">Office 8</option>
-                                                <option value="Office 9">Office 9</option>
-                                                <option value="Office 10">Office 10</option>
-                                                <option value="Office 11">Office 11</option>
-                                                <option value="Office 12">Office 12</option>
-                                                <option value="Office 13">Office 13</option>
-                                                <option value="Office 14">Office 14</option>
-                                                <option value="Office 15">Office 15</option>
-                                                <option value="Office 16">Office 16</option>
-                                                <option value="Office 17">Office 17</option>
-                                                <option value="Others">Others</option>
-                                            </select>
+                                            <input name="organization" class="form-control" type="text" placeholder="Organization Name">
+                                            @error('organization')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Head of the Organization</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-building"></i></span>
-                                            <select name="head_of_org" class="form-control selectpicker"  >
-                                                <option value="">Please Choose</option>
-                                                <option value="Head of office 1">Head of office 1</option>
-                                                <option value="Head of office 2">Head of office 2</option>
-                                                <option value="Head of office 3">Head of office 3</option>
-                                                <option value="Head of office 4">Head of office 4</option>
-                                                <option value="Head of office 5">Head of office 5</option>
-                                                <option value="Head of office 6">Head of office 6</option>
-                                                <option value="Head of office 7">Head of office 7</option>
-                                                <option value="Head of office 8">Head of office 8</option>
-                                                <option value="Head of office 9">Head of office 9</option>
-                                                <option value="Head of office 10">Head of office 10</option>
-                                                <option value="Head of office 11">Head of office 11</option>
-                                                <option value="Head of office 12">Head of office 12</option>
-                                                <option value="Head of office 13">Head of office 13</option>
-                                                <option value="Head of office 14">Head of office 14</option>
-                                                <option value="Head of office 15">Head of office 15</option>
-                                                <option value="Head of office 16">Head of office 16</option>
-                                                <option value="Head of office 17">Head of office 17</option>
-                                                <option value="Others">Others</option>
-                                            </select>
+                                            <input name="head_of_org" class="form-control" type="text" placeholder="Head of the Organization">
+                                            @error('head_of_org')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Cadre number/non-cadre</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-building"></i></span>
-                                            <select name="cadre" id="blood_group" class="form-control selectpicker"  >
+                                            <select name="cadre" id="cadre_type" class="form-control selectpicker">
                                                 <option value="">Please Choose</option>
-                                                <option value="Cadre 1">Cadre 1</option>
-                                                <option value="Cadre 2">Cadre 2</option>
-                                                <option value="Cadre 3">Cadre 3</option>
-                                                <option value="Cadre 4">Cadre 4</option>
-                                                <option value="Cadre 5">Cadre 5</option>
-                                                <option value="Cadre 6">Cadre 6</option>
-                                                <option value="Cadre 7">Cadre 7</option>
-                                                <option value="Cadre 8">Cadre 8</option>
-                                                <option value="Cadre 9">Cadre 9</option>
-                                                <option value="Cadre 10">Cadre 10</option>
-                                                <option value="Cadre 11">Cadre 11</option>
-                                                <option value="Cadre 12">Cadre 12</option>
-                                                <option value="Cadre 13">Cadre 13</option>
-                                                <option value="Cadre 14">Cadre 14</option>
-                                                <option value="Cadre 15">Cadre 15</option>
-                                                <option value="Cadre 16">Cadre 16</option>
-                                                <option value="Cadre 17">Cadre 17</option>
-                                                <option value="non cadre">Non cadre</option>
+                                                <option value="cadre">Cadre</option>
+                                                <option value="non cadre">Non Cadre</option>
                                             </select>
+                                            @error('cadre')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+
+
+                                <div id="cadre" class="col-sm-3" style="display: none;">
+                                    <div class="form-group">
+                                        <label>Cadre Name</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-building"></i></span>
+                                            <input name="cadre_name" class="form-control" type="text" placeholder="cadre name">
+                                            @error('cadre_name')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Service ID (If any)</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-id-card-alt"></i></span>
-                                            <input name="service_id" placeholder="Ex.: BCS Carder ID " class="form-control" type="text"  >
+                                            <input name="service_id" placeholder="Ex.: BCS Carder ID " class="form-control" type="text">
+                                            @error('service_id')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Pay Grade</label>
                                         <div class="input-group">
@@ -289,65 +295,100 @@
                                                 <option value="8">8</option>
                                                 <option value="9">9</option>
                                                 <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
                                             </select>
+                                            @error('pay_grade')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label>Current Controlling Officer (Designation)</label>
+                                        <label>Current Controlling Officer</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-dharmachakra"></i></span>
-                                            <input name="controlling_officer" placeholder="Controlling Officer" class="form-control" type="text"  >
+                                            <input name="controlling_officer" placeholder="Controlling Officer" class="form-control" type="text">
+                                            @error('controlling_officer')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label> Current Working Station</label>
+                                        <label> Current Working Station<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                            <input name="working_station" id="pre_house" placeholder="Working Station" class="form-control" type="text"  >
+                                            <input name="working_station" id="pre_house" placeholder="Working Station" class="form-control" type="text">
+                                            @error('working_station')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label>District</label>
+                                        <label> Designation<span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
-                                            <select name="district" class="form-control selectpicker"  >
-                                                <option value="">Please Choose</option>
-                                                <option value="Dhaka">Dhaka</option>
-                                                <option value="Mymensingh">Mymensingh</option>
-                                                <option value="Gazipur">Gazipur</option>
-                                                <option value="Chittagong">Chittagong</option>
-                                                <option value="Rajshahi">Rajshahi</option>
-                                                <option value="Khulna">Khulna</option>
-                                            </select>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                            <input name="designation" id="pre_house" placeholder="Designation" class="form-control" type="text">
+                                            @error('designation')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Upozilla</label>
+                                        <label>Division<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
-                                            <select name="upozilla"  class="form-control selectpicker"  >
+                                            <select name="division" class="form-control selectpicker">
                                                 <option value="">Please Choose</option>
-                                                <option value="Gulshan">Gulshan</option>
-                                                <option value="Kalihati">Kalihati</option>
-                                                <option value="Modhupur">Modhupur</option>
-                                                <option value="Dohar">Dohar</option>
-                                                <option value="Trishal">Trishal</option>
-                                                <option value="Valuka">Valuka</option>
+                                                @foreach($division as $div)
+                                                <option value="{{ $div->id }}">{{ $div->division_name }}</option>
+                                                @endforeach
                                             </select>
+                                            @error('division')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>District<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
+                                            <select name="district" class="form-control selectpicker">
+                                                <option value="">Please Choose</option>
+
+                                            </select>
+                                            @error('district')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Upozilla<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
+                                            <select name="upozilla"  class="form-control selectpicker">
+                                                <option value="">Please Choose</option>
+
+                                            </select>
+                                            @error('upozilla')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -357,17 +398,23 @@
                                         <label>Office Telephone</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-phone"></i></span>
-                                            <input name="org_tel" placeholder="Office Telephone" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="number"  >
+                                            <input name="org_tel" placeholder="Office Telephone" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" type="number">
+                                            @error('org_tel')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Office Email</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-at"></i></span>
-                                            <input name="org_email" placeholder="dg.bari@gmail.com" class="form-control" type="email"  >
+                                            <input name="org_email" placeholder="dg.bari@gmail.com" class="form-control" type="email">
+                                            @error('org_email')
+                                            <p class="text-danger">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -385,6 +432,9 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                     <input name="height" id="pre_house" placeholder="Height" class="form-control" type="number">
+                                    @error('height')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -395,6 +445,9 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                     <input name="weight" id="weight" placeholder="Weight" class="form-control" type="number">
+                                    @error('weight')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -416,6 +469,9 @@
                                         <option value="O+">O+</option>
                                         <option value="O-">O-</option>
                                     </select>
+                                    @error('blood_group')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -438,6 +494,9 @@
                                         <option value="MASTERS/EQUIVALENT">MASTERS/EQUIVALENT</option>
                                         <option value="Phd./EQUIVALENT">Phd./EQUIVALENT</option>
                                     </select>
+                                    @error('degree')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -446,7 +505,10 @@
                                 <label>Year</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-university"></i></span>
-                                    <input name="passing_year" placeholder="Passing Year" class="form-control" type="number"  >
+                                    <input name="passing_year" placeholder="Passing Year" class="form-control" type="number">
+                                    @error('passing_year')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -456,7 +518,10 @@
                                 <label>Board/University</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-university"></i></span>
-                                    <input name="board" placeholder="Board/University Name" class="form-control" type="text"  >
+                                    <input name="board" placeholder="Board/University Name" class="form-control" type="text">
+                                    @error('board')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -472,6 +537,9 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                     <input name="father" id="father" placeholder="Father's Name" class="form-control" type="text">
+                                    @error('father')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -482,6 +550,9 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                     <input name="mother" id="mother" placeholder="Mother's Name" class="form-control" type="text">
+                                    @error('mother')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -492,61 +563,59 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                     <input name="village" id="village" placeholder="Village/Road Name" class="form-control" type="text">
+                                    @error('village')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label>Division-D</label>
+                                <label>Division<span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
                                     <select name="permanent_division" class="form-control selectpicker"  >
                                         <option value="">Please Choose</option>
-                                        <option value="Dhaka">Dhaka</option>
-                                        <option value="Mymensingh">Mymensingh</option>
-                                        <option value="Barishal">Barishal</option>
-                                        <option value="Khulna">Khulna</option>
-                                        <option value="Chittagong">Chittagong</option>
-                                        <option value="Sylet">Sylet</option>
-                                        <option value="Rajshahi">Rajshahi</option>
+                                        @foreach($perdivision as $div)
+                                        <option value="{{ $div->id }}">{{ $div->division_name }}</option>
+                                        @endforeach
                                     </select>
+                                    @error('permanent_division')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label>District-D</label>
+                                <label>District<span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
                                     <select name="permanent_district" class="form-control selectpicker"  >
-                                        <option value="">Please Choose</option>
-                                        <option value="Dhaka">Dhaka</option>
-                                        <option value="Gazipur">Gazipur</option>
-                                        <option value="Netrokona">Netrokona</option>
-                                        <option value="Jamalpur">Jamalpur</option>
-                                        <option value="Khulna">Khulna</option>
-                                        <option value="Rongpur">Rongpur</option>
+
+
                                     </select>
+                                    @error('permanent_district')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label>Upozilla-D</label>
+                                <label>Upozilla<span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-place-of-worship"></i></span>
                                     <select name="permanent_upozilla" class="form-control selectpicker"  >
                                         <option value="">Please Choose</option>
-                                        <option value="Dohar">Dohar</option>
-                                        <option value="Trishal">Trishal</option>
-                                        <option value="Ukhia">Ukhia</option>
-                                        <option value="Lalpur">Lalpur</option>
-                                        <option value="Lalkhan">Lalkhan</option>
-                                        <option value="Valuka">Valuka</option>
+
                                     </select>
+                                    @error('permanent_upozilla')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -561,7 +630,10 @@
                                 <label>Name</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-university"></i></span>
-                                    <input name="contact_name"  placeholder="Emergency Contact Person" class="form-control" type="text"  >
+                                    <input name="contact_name"  placeholder="Emergency Contact Person" class="form-control" type="text">
+                                    @error('contact_name')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -580,6 +652,9 @@
                                         <option value="Spouse">Spouse</option>
                                         <option value="Other">Other</option>
                                     </select>
+                                    @error('contact_relation')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -589,16 +664,22 @@
                                 <label>Mobile Number</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-university"></i></span>
-                                    <input name="contact_phone" placeholder="Mobile Number" class="form-control" type="number"  >
+                                    <input name="contact_phone" placeholder="Mobile Number" class="form-control" type="number">
+                                    @error('contact_phone')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Image</label>
+                                <label>Participant Image</label>
                                 <input type="file" name="image" class="form-control">
                                 <label></label>
+                                @error('image')
+                                <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
@@ -606,20 +687,23 @@
 
                     </fieldset>
 
-                    <div class="the-fieldset" style="margin-top: 20px;margin-right: 15px;margin-left: 15px;">
 
-                        <!-- captcha
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Captcha</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon " style="padding: 0px 0px ;"><img src="http://tmis.nata.gov.bd/captcha/default?g6Lroeg6" ></span>
-                                    <input type="text" name="captcha" placeholder="  ?" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" required>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                    -->
+{{--                            <fieldset class="the-fieldset" style="margin-top: 20px;margin-right: 15px;margin-left: 15px;">--}}
+{{--                    <div class="the-fieldset" style="margin-top: 20px;margin-right: 15px;margin-left: 15px;">--}}
+
+
+{{--                        <div class="col-sm-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label>Captcha</label>--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <span class="input-group-addon " style="padding: 0px 0px ;"><img src="http://tmis.nata.gov.bd/captcha/default?g6Lroeg6" ></span>--}}
+{{--                                    <input type="text" name="captcha" placeholder="  ?" class="form-control" style="font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;" required>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    </fieldset>--}}
+
 
 
                         <!-- Button -->
@@ -630,21 +714,162 @@
                                         class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
                             </div>
                         </div>
+
+
+
+
                     </div>
+
                 </form>
 
 
 
-        </div>
+
         </div>
 
 
     </main>
 
 
+    <script>
+$(document).ready(function (){
+
+    $(document).on('change','select[name="course_id"]',function(){
+
+        let id = $(this).val();
+
+        if (id){
+            $.ajax({
+                url:"{{ url('session/get') }}/"+id,
+                method:"GET",
+                dataType:"json",
+                success:function (data){
+                    var d = $('select[name="session_id"]').empty();
+                    $.each(data,function (key,value){
+                        $('select[name="session_id"]').append('<option value="'+value.id+'">'+value.session_name+'</option>');
+                    })
+                }
+            });
+        }else{
+            alert('danger');
+        }
 
 
 
+
+    })
+
+    $(document).on('change','select[name="division"]',function (){
+        let id = $(this).val();
+        if (id){
+            $.ajax({
+                url:"{{ url('pro/district/select') }}/"+id,
+                method:"GET",
+                dataType:"json",
+                success:function (data){
+                    var d = $('select[name="district"]').empty();
+                    $.each(data,function (key,value){
+                        $('select[name="district"]').append('<option value="'+value.id+'">'+value.district_name+'</option>');
+                    });
+                }
+            })
+        }else{
+            alert('danger');
+        }
+    })
+
+    $(document).on('change','select[name="district"]',function (){
+        let id = $(this).val();
+
+        if (id){
+            $.ajax({
+                url:"{{ url('pro/upozila/select') }}/"+id,
+                method:"GET",
+                dataType:"json",
+                success:function (data){
+                    var d = $('select[name="upozilla"]').empty();
+                    $.each(data,function (key,value){
+                        $('select[name="upozilla"]').append('<option value="'+value.id+'">'+value.upozila_name+'</option>');
+                    });
+                }
+            })
+        }else{
+            alert('danger');
+        }
+    })
+
+
+       $(document).on('change','select[name="cadre"]',function (){
+           let cadre_select = $('#cadre_type').val();
+           if (cadre_select=='cadre'){
+               $('#cadre').show();
+           }else{
+               $('#cadre').hide();
+           }
+       })
+
+
+
+})
+
+</script>
+
+ <script>
+        $(document).ready(function (){
+
+            $(document).on('change','select[name="permanent_division"]',function (){
+                let id = $(this).val();
+
+                if(id){
+                   $.ajax({
+                       url:"{{ url('per/select/district') }}/"+id,
+                       method:"GET",
+                       dataType:"json",
+                       success:function (data){
+                           var d = $('select[name="permanent_district"]').empty();
+
+                           $.each(data,function (key,value){
+                               $('select[name="permanent_district"]').append('<option value="'+value.id+'">'+value.district_name+'</option>');
+                           });
+                       }
+                   })
+                }else{
+                    alert('danger');
+                }
+            });
+
+
+            $(document).on('change','select[name="permanent_district"]',function (){
+                let id = $(this).val();
+
+                if(id){
+                    $.ajax({
+                        url:"{{ url('per/select/upozila') }}/"+id,
+                        method:"GET",
+                        dataType:"json",
+                        success:function (data){
+                            var d = $('select[name="permanent_upozilla"]').empty();
+
+                            $.each(data,function (key,value){
+                                $('select[name="permanent_upozilla"]').append('<option value="'+value.id+'">'+value.upozila_name+'</option>');
+                            });
+                        }
+                    })
+                }else{
+                    alert('danger');
+                }
+            });
+
+
+
+
+
+        })
+
+
+
+
+    </script>
 
 
 

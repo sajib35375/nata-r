@@ -28,8 +28,8 @@
                                     <td>{{ $loop->index+1 }}</td>
                                     <td>{{ $d->course_name }}</td>
                                     <td>
-                                        <a class="btn btn-info" href="">Edit</a>
-                                        <a class="btn btn-danger" href="">Delete</a>
+                                        <a class="btn btn-info" href="{{ route('course.edit',$d->id) }}">Edit</a>
+                                        <a class="btn btn-danger" href="{{ route('course.delete',$d->id) }}">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -41,13 +41,13 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Add new Slider</h2>
+                        <h2>Add new Course</h2>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('course.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input name="course" class="form-control" type="text">
+                                <input name="course_name" class="form-control" type="text">
                             </div>
                             <div class="form-group">
                                 <input class="btn btn-success" type="submit">

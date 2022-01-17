@@ -3,6 +3,9 @@
 
 
 <div class="wrap">
+    @if(Session::has('success'))
+        <p class="alert alert-success">{{ Session::get('success') }}<button class="close" data-dismiss="alert">&times;</button></p>
+    @endif
     @if($errors->any())
         <p class="text-danger">{{ $errors->first() }}</p>
         @endif
@@ -27,8 +30,8 @@
                            <td>{{ $loop->index+1 }}</td>
                            <td><img style="width: 100px;height: 100px;" src="{{ URL::to('') }}/NATA_files/image/{{ $d->photo }}" alt=""></td>
                            <td>
-                               <a class="btn btn-info" href="">Edit</a>
-                               <a class="btn btn-danger" href="">Delete</a>
+                               <a class="btn btn-info" href="{{ route('slider.edit',$d->id) }}">Edit</a>
+                               <a class="btn btn-danger" href="{{ route('slider.delete',$d->id) }}">Delete</a>
                            </td>
                        </tr>
                        @endforeach

@@ -15,6 +15,24 @@ class Apply extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
     public function course(){
-        return $this ->belongsTo('App\Models\Course','course_name','id');
+        return $this ->belongsTo(Course::class,'course_id','id');
+    }
+    public function session(){
+        return $this ->belongsTo(Asession::class,'session_id','id');
+    }
+    public function pdivision(){
+        return $this ->belongsTo(Perdivision::class,'a_divisaion','id');
+    }
+    public function pdistrict(){
+        return $this ->belongsTo(Perdistrict::class,'b_district','id');
+    }
+    public function pupozila(){
+        return $this ->belongsTo(Perupozila::class,'c_upozila','id');
+    }
+    public function proupozila(){
+        return $this ->belongsTo(Proupozila::class,'p_upozila','id');
+    }
+    public function prodistrict(){
+        return $this ->belongsTo(Prodistrict::class,'p_district','id');
     }
 }

@@ -1,6 +1,79 @@
 @extends('frontend.body.app')
 
 @section('content')
+    <style>
+        * {box-sizing: border-box;}
+        body {font-family: Verdana, sans-serif;}
+        .mySlides {display: none;}
+        img {vertical-align: middle;}
+
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active {
+            background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+            -webkit-animation-name: fade;
+            -webkit-animation-duration: 2s;
+            animation-name: fade;
+            animation-duration: 5s;
+        }
+
+        @-webkit-keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+            .text {font-size: 11px}
+        }
+    </style>
+
+
 
 
     <div class="container">
@@ -12,66 +85,126 @@
                     <div class="panel-body" style="max-height: 360px;">
                         <div class="row">
                             <div class="col-xs-12">
+
+                                @php
+
+                                    $notices = \App\Models\Post::where('notice',1)->latest()->get();
+
+                                @endphp
+
+
+                                @foreach($notices as $notice)
                                 <ul class="demo2" style="overflow-y: hidden; height: 270px;">
 
 
 
 
 
+                                    <li style="" class="news-item">{{ $notice->title }}<a class="news-item-link" href="{{ route('single.notice',$notice->id) }}">Read
+                                            more...</a></li>
 
 
 
-                                    <li style="" class="news-item">২১-২৫ নভেম্বর ২০২১ পর্যন্ত Soil Health Management বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।<a class="news-item-link" href="http://localhost/notice/11">Read
-                                            more...</a></li><li style="" class="news-item">২৪ অক্টোবর - ২ নভেম্বর ২০২১ পর্যন্ত Project Appraisal and Formulation of DPP বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।<a class="news-item-link" href="http://localhost/notice/7">Read
-                                            more...</a></li><li style="" class="news-item">২৮ নভেম্বর-২ ডিসেম্বর ২০২১ পর্যন্ত Food Security &amp; Food Safety বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।<a class="news-item-link" href="http://localhost/notice/8">Read
-                                            more...</a></li><li style="display:none;" class="news-item">৭-১১ নভেম্বর ২০২১ পর্যন্ত Rules &amp; Regulations for Organizational Management বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে।<a class="news-item-link" href="http://localhost/notice/9">Read
-                                            more...</a></li><li style="display:none;" class="news-item">১৪-২৩ নভেম্বর ২০২১ পর্যন্ত "Public Procurement Procedure" বিষয়ে নাটা, গাজীপুরে প্রশিক্ষণ অনুষ্ঠিত হবে। মনোনীত প্রশিক্ষনার্থীদেরকে tmis.nata.gov.bd তে অনলাইন রেজি. সম্পন্ন করার জন্য অনুরোধ করা হলো।<a class="news-item-link" href="http://localhost/notice/10">Read
-                                            more...</a></li></ul>
+
+                                </ul>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer"> <ul class="pagination pull-right" style="margin: 0px;"><li><a href="http://localhost/nata/#" class="prev"><span class="glyphicon glyphicon-chevron-down"></span></a></li><li><a href="http://localhost/nata/#" class="next"><span class="glyphicon glyphicon-chevron-up"></span></a></li></ul><div class="clearfix"></div></div>
+                    <div class="panel-footer">
+                        <ul class="pagination pull-right" style="margin: 0px;">
+                            <li><a href="http://localhost/nata/#" class="prev">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://localhost/nata/#" class="next">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
 
             </div>
 
             <div id="mb" class="animate-bottom col-sm-6">
-                <div id="bannsershow" class="camera_wrap drop-shadow" style="display: block; margin-bottom: 63px; height: 278px;"><div class="camera_fakehover"><div class="camera_src camerastarted">
-                            <div data-src="http://localhost/nata/public/img/uploads/February2020/s76g3lJkTxhniNluD7i9.jpeg">
-                                <img src="./NATA_files/s76g3lJkTxhniNluD7i9.jpeg">
 
-                            </div>
-                            <div data-src="http://localhost/nata/public/img/uploads/February2020/g02rgbcd2pUQ3tu7TQ8E.jpg">
-                                <img src="./NATA_files/g02rgbcd2pUQ3tu7TQ8E.jpg">
+                <div class="slideshow-container" style="height: 320px; width:560px;">
 
-                            </div>
-                            <div data-src="http://localhost/nata/public/img/uploads/February2020/LI18iKR5g9JMZs0FovIB.jpg">
-                                <img src="./NATA_files/LI18iKR5g9JMZs0FovIB.jpg">
+                    @foreach($sliders as $slider)
+                    <div class="mySlides fade">
+                        <div class="numbertext">1 / 3</div>
+                        <img src="{{ URL::to('') }}/NATA_files/image/{{ $slider->photo }}" style="height: 320px; width:560px;">
+                        <div class="text">Caption Text</div>
+                    </div>
+                    @endforeach
 
-                            </div>
-                            <div data-src="http://localhost/nata/public/img/uploads/October2020/PwOFqJKWvLDttw6Hhvxx.JPG">
-                                <img src="./NATA_files/PwOFqJKWvLDttw6Hhvxx.JPG">
 
-                            </div>
-                        </div><div class="camera_target"><div class="cameraCont"><div class="cameraSlide cameraSlide_0" style="visibility: visible; z-index: 1; display: none;"><img src="./NATA_files/s76g3lJkTxhniNluD7i9(1).jpeg" class="imgLoaded" style="visibility: visible; height: 431.667px; margin-left: 0px; margin-right: 0px; margin-top: -76.8333px; position: absolute; width: 555px;" data-alignment="" data-portrait="" width="900" height="700"><div class="camerarelative" style="width: 555px; height: 278px;"></div></div><div class="cameraSlide cameraSlide_1" style="z-index: 1; display: none;"><img src="./NATA_files/g02rgbcd2pUQ3tu7TQ8E(1).jpg" class="imgLoaded" data-alignment="" data-portrait="" width="900" height="700" style="visibility: visible; height: 431.667px; margin-left: 0px; margin-right: 0px; margin-top: -76.8333px; position: absolute; width: 555px;"><div class="camerarelative" style="width: 555px; height: 278px;"></div></div><div class="cameraSlide cameraSlide_2 cameracurrent" style="z-index: 999;"><img src="./NATA_files/LI18iKR5g9JMZs0FovIB(1).jpg" class="imgLoaded" style="visibility: visible; height: 418.904px; margin-left: 0px; margin-right: 0px; margin-top: -70.4522px; position: absolute; width: 555px;" data-alignment="" data-portrait="" width="575" height="434"><div class="camerarelative" style="width: 555px; height: 278px;"></div></div><div class="cameraSlide cameraSlide_3 cameranext" style="z-index: 1; display: none;"><img src="./NATA_files/PwOFqJKWvLDttw6Hhvxx(1).JPG" class="imgLoaded" style="visibility: visible; height: 418.868px; margin-left: 0px; margin-right: 0px; margin-top: -70.434px; position: absolute; width: 555px;" data-alignment="" data-portrait="" width="1696" height="1280"><div class="camerarelative" style="width: 555px; height: 278px;"></div></div><div class="cameraSlide cameraSlide_4 cameranext" style="z-index: 1; display: none;"><div class="camerarelative" style="width: 555px; height: 278px;"></div></div></div></div><div class="camera_overlayer"></div><div class="camera_target_content"><div class="cameraContents"><div class="cameraContent" style="display: none;"><div class="camera_caption"><div>
+
+                </div>
+
+
+                <div style="text-align:center">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                        <div class="camera_overlayer">
+
+                        </div>
+            </div>
+                        <div class="col-sm-3">
+                        <div class="camera_target_content">
+                            <div class="cameraContents">
+                                <div class="cameraContent">
+                                    <div class="camera_caption">
+                                        <div>
                                             <p>“Farmer-Entrepreneur: Emerging Driver for Commercial Agriculture” শীর্ষক সেমিনার</p>
-                                        </div></div></div><div class="cameraContent" style="display: none;"><div class="camera_caption"><div>
+                                        </div></div></div><div class="cameraContent" ><div class="camera_caption"><div>
                                             <p>“Farmer-Entrepreneur: Emerging Driver for Commercial Agriculture” শীর্ষক সেমিনার</p>
                                         </div></div></div><div class="cameraContent cameracurrent" style="display: block;"><div class="camera_caption"><div>
                                             <p>NATA Campus</p>
-                                        </div></div></div><div class="cameraContent" style="display: none;"><div class="camera_caption"><div>
+                                        </div></div></div><div class="cameraContent" ><div class="camera_caption"><div>
                                             <p>নাটাতে মাননীয় কৃষি মন্ত্রী মহোদয়কে স্বাগতম</p>
-                                        </div></div></div></div></div><div class="camera_bar" style="top: auto; height: 7px;"><span class="camera_bar_cont" style="position: absolute; inset: 0px; background-color: rgb(34, 34, 34); opacity: 1;"><span id="pie_0" style="position: absolute; background-color: rgb(249, 6, 0); inset: 2px 360.75px 2px 0px; opacity: 1;"></span></span></div><div class="camera_commands" style="opacity: 0;"><div class="camera_play" style="display: none;"></div><div class="camera_stop" style=""></div></div><div class="camera_prev" style="opacity: 0;"><span></span></div><div class="camera_next" style="opacity: 0;"><span></span></div></div><div class="camera_pag"><ul class="camera_pag_ul"><li class="pag_nav_0" style="position:relative; z-index:1002"><span><span>0</span></span></li><li class="pag_nav_1" style="position:relative; z-index:1002"><span><span>1</span></span></li><li class="pag_nav_2 cameracurrent" style="position:relative; z-index:1002"><span><span>2</span></span></li><li class="pag_nav_3" style="position:relative; z-index:1002"><span><span>3</span></span></li></ul></div><div class="camera_loader" style="display: none; visibility: visible;"></div></div>
-            </div>
+                                        </div></div></div></div>
+                        </div>
+                            <div class="camera_bar" style="top: auto; height: 7px;"><span class="camera_bar_cont" style="position: absolute; inset: 0px; background-color: rgb(34, 34, 34); opacity: 1;"><span id="pie_0" style="position: absolute; background-color: rgb(249, 6, 0); inset: 2px 360.75px 2px 0px; opacity: 1;"></span></span></div>
+                            <div class="camera_commands" style="opacity: 0;"><div class="camera_play" ></div><div class="camera_stop" style=""></div></div>
+                            <div class="camera_prev" style="opacity: 0;"><span></span></div>
+                            <div class="camera_next" style="opacity: 0;"><span></span></div>
+                        </div>
+{{--            <div class="camera_pag"><ul class="camera_pag_ul"><li class="pag_nav_0" style="position:relative; z-index:1002"><span><span>0</span></span></li><li class="pag_nav_1" style="position:relative; z-index:1002"><span><span>1</span></span></li><li class="pag_nav_2 cameracurrent" style="position:relative; z-index:1002"><span><span>2</span></span></li><li class="pag_nav_3" style="position:relative; z-index:1002"><span><span>3</span></span></li></ul></div>--}}
+{{--            <div class="camera_loader"  >--}}
+
+{{--            </div>--}}
+
+
+{{--        </div>--}}
+{{--            </div>--}}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <div id="dg" class="animate-right col-sm-3">
                 <div class="card drop-shadow" style="min-height: 138px">
                     <img class="header-bg" src="./NATA_files/nata.gif" width="250" height="90" id="header-blur">
                     <div class="avatar">
-                        <img src="./NATA_files/dg.jpg" alt="">
+                        <img src="./dg-pic/DG.jpg" alt="">
                     </div>
                     <div class="content dgbox">
-                        <h3 class="text-center" style="font-size: 1.3em;"><b>Dr. Md. Mahbub Alam</b></h3>
+                        <h3 class="text-center" style="font-size: 1.3em;"><b>মাহমুদুল হাসান</b></h3>
                         <p class="text-center" style="color:green; font-size: 1.1em;">Director General (In-Charge)</p>
                         <p class="text-center">About</p>
                         <p class="text-center">Director General</p>
@@ -81,10 +214,10 @@
                 </div>
             </div>
 
-        </div>
-    </div>
 
-    <div class="container" style="text-center;">
+
+
+    <div class="container" style="text-align: center;">
         <div class="alert alert-success  text-center"></div>
     </div>
 
@@ -186,12 +319,30 @@
 
         </div>
     </main>
-    </div>
 
 
 
+    <script>
+        var slideIndex = 0;
+        showSlides();
 
-
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 5000); // Change image every 2 seconds
+        }
+    </script>
 
 
 @endsection
