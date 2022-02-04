@@ -144,7 +144,7 @@
                 </ul>
             </li>
             <li><a href="{{ route('all.syllabus') }}">Syllabus</a></li>
-            <li><a href="{{ route('show.ins') }}">Registration</a></li>
+            <li><a href="{{ route('apply.form') }}">Registration</a></li>
 
             <li><a href="{{ route('show.notice') }}">All Notice</a></li>
 

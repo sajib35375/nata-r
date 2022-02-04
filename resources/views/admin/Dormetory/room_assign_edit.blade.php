@@ -108,7 +108,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="">Validity</label>
+                                <label for="">Start Date</label>
+                                <input name="start" class="form-control" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="">End Date</label>
                                 <input name="validity" class="form-control" type="date">
                             </div>
 

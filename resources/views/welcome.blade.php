@@ -11,6 +11,8 @@
 <body>
 <style>
 
+
+
     h1 {
         text-align: center;
         color: green;
@@ -28,12 +30,14 @@
 </style>
 
 
-<h1>Welcome to NATA</h1>
+<div class="welcome">
+    <h1>Welcome to NATA</h1>
 
 
-<div class="button">
-    <a class="btn btn-primary" href="{{ url('http://nata.bpbdgroup.com/login') }}">Sign In</a>
-    <a class="btn btn-info" href="{{ url('http://nata.bpbdgroup.com/register') }}">Sign Up</a>
+    <div class="button">
+        <a class="btn btn-primary" href="{{ url('http://tmis.nata.gov.bd/login') }}">Sign In</a>
+        <a class="btn btn-info" href="{{ url('http://tmis.nata.gov.bd/register') }}">Sign Up</a>
+    </div>
 </div>
 
 

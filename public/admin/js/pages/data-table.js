@@ -43,7 +43,7 @@ $(function () {
 	});
 	
 
-	$('#complex_header').DataTable();
+	// $('#complex_header').DataTable();
 	
 	//--------Individual column searching
 	
@@ -55,11 +55,11 @@ $(function () {
  
     // DataTable
     var table = $('#example5').DataTable();
- 
+    //
     // Apply the search
     table.columns().every( function () {
         var that = this;
- 
+
         $( 'input', this.footer() ).on( 'keyup change', function () {
             if ( that.search() !== this.value ) {
                 that

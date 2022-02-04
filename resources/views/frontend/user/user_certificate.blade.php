@@ -16,34 +16,34 @@
                 @if( Session::has('success') )
                     <p class="alert alert-success">{{ Session::get('success') }}<button class="close" data-dismiss="alert">&times;</button></p>
                 @endif
+
                 <table class="table">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
                         <th>Course Name</th>
                         <th>Batch Name</th>
-                        <th>Mobile</th>
-                        <th>Organization Name</th>
+                        <th>Applicant Name</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($app as $a)
+                    @foreach($all_data as $data)
                     <tr>
-                        <td>{{ $loop->index+1 }}</td>
-                        <td>{{ $a->name_en }}</td>
-                        <td>{{ $a->course->course_name }}</td>
-                        <td>{{ $a->session->session_name }}</td>
-                        <td>{{ $a->mobile }}</td>
-                        <td>{{ $a->organization_name }}</td>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $data->course->course_name }}</td>
+                        <td>{{ $data->session->session_name }}</td>
+                        <td>{{ $data->name_en }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ route('user.apply.single',$a->id) }}">view</a>
+                            <a class="btn btn-danger" href="{{ route('user.certificate.download',$data->id) }}">Certificate Download</a>
+                            <a class="btn btn-primary" href="{{ route('user.letter.download',$data->id) }}">Latter Download</a>
+
                         </td>
                     </tr>
                     @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

@@ -60,6 +60,8 @@ class CreateAppliesTable extends Migration
             $table->string('photo')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->date('validity');
+            $table->integer('first_id')->default(1);
+            $table->integer('last_id')->default(1);
             $table->boolean('status')->default(false);
             $table->timestamps();
 

@@ -254,7 +254,7 @@
 
 
 
-            <div class=" well" style="padding-left: 15px;padding-right: 15px">
+            <div class="well" style="padding-left: 15px;padding-right: 15px">
 
                 <div class="row vertical-align">
 
@@ -271,7 +271,7 @@
                     <div class="col-sm-6">
 
                         <div class="map-responsive">
-
+                            <img src="" alt="">
                             <iframe src="./NATA_files/embed.html" width="600" height="450" frameborder="0" style="border:0" allowfullscreen=""></iframe>
                             <!--
 

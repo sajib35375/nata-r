@@ -213,7 +213,26 @@
                                         <label>Organization Name<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fas fa-building"></i></span>
-                                            <input name="organization" class="form-control" type="text" placeholder="Organization Name">
+                                            <select class="form-control" name="organization" id="">
+                                                <option value="">-select-</option>
+                                                <option value="office-1">office-1</option>
+                                                <option value="office-2">office-2</option>
+                                                <option value="office-3">office-3</option>
+                                                <option value="office-4">office-4</option>
+                                                <option value="office-5">office-5</option>
+                                                <option value="office-6">office-6</option>
+                                                <option value="office-7">office-7</option>
+                                                <option value="office-8">office-8</option>
+                                                <option value="office-9">office-9</option>
+                                                <option value="office-10">office-10</option>
+                                                <option value="office-11">office-11</option>
+                                                <option value="office-12">office-12</option>
+                                                <option value="office-13">office-13</option>
+                                                <option value="office-14">office-14</option>
+                                                <option value="office-15">office-15</option>
+                                                <option value="office-16">office-16</option>
+                                                <option value="office-17">office-17</option>
+                                            </select>
                                             @error('organization')
                                             <p class="text-danger">{{ $message }}</p>
                                             @enderror

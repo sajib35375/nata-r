@@ -7,6 +7,7 @@
             <div class="col-md-4 my-5" style="margin-bottom: 20px;">
                 <img style="width: 150px;height: 150px;border-radius: 50%;display: block;margin: auto;" src="{{ URL::to('') }}/img/user/{{ $user_data->photo }}" alt="">
                 <a class="btn btn-primary btn-block" href="{{ route('user.profile') }}">Profile</a>
+                <a class="btn btn-primary btn-block" href="{{ route('user.certificate') }}">Certificate</a>
                 <a class="btn btn-primary btn-block" href="{{ route('change.pass.view') }}">Change Password</a>
                 <a class="btn btn-primary btn-block" href="{{ route('user.apply') }}">Apply Form</a>
                 <a class="btn btn-danger btn-block" href="{{ route('logout') }}">logout</a>

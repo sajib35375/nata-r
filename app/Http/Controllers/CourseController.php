@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apply;
+use App\Models\Asession;
 use App\Models\Course;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -78,13 +79,13 @@ class CourseController extends Controller
             if($request->hasFile('image')){
                 $image = $request->file('image');
                 $unique_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-                Image::make($image)->resize(1200,900)->save('NATA_files/image/'.$unique_name);
+                Image::make($image)->resize(120,100)->save('NATA_files/image/'.$unique_name);
             }
 
 
         $current = Carbon::now();
 
-        Apply::insert([
+        $id = Apply::insertGetId([
             'user_id' => Auth::id(),
             'course_id' => $request->course_id,
             'session_id' => $request->session_id,
@@ -137,13 +138,17 @@ class CourseController extends Controller
 
     public function viewTable(){
         $allData = Apply::latest()->get();
-        return view('admin.student-application.stu_app',compact('allData'));
+        $count = Apply::latest()->count();
+        return view('admin.student-application.stu_app',compact('allData','count'));
     }
 
 
     public function statusApprove($id){
         $approve = Apply::find($id);
+        $asses_id = Asession::where('id',$approve->session_id)->first();
         $approve->status=true;
+        $approve->first_id = $asses_id->SL_first.$id;
+        $approve->last_id = $asses_id->SL_last.$id;
         $approve->update();
 
         return redirect()->back()->with('success','status approved successfully');
@@ -161,17 +166,5 @@ class CourseController extends Controller
         $app_details = Apply::find($id);
         return view('admin.student-application.stu_app_details',compact('app_details'));
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

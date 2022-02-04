@@ -203,7 +203,13 @@ class DormatoryController extends Controller
             array_push($stu,$student->id);
         }
 
-        $room = Room::where('validity','>=',$current)->get();
+        $room = Room::where('start', '<=', $current)
+            ->where('validity', '>=', $current)
+            ->get();
+        $show = Room::where('start', '<=', $current)
+            ->where('validity', '>=', $current)->orWhere('start', '>=', $current)
+            ->orWhere('validity', '<=', $current)
+            ->get();
 //        dd($room);
         $filter_id = [];
 
@@ -212,7 +218,7 @@ class DormatoryController extends Controller
 
         }
 
-        return view('admin.Dormetory.room_assign',compact('dormatory','filter_id','students','room'));
+        return view('admin.Dormetory.room_assign',compact('dormatory','show','filter_id','students','room'));
     }
 
     public function gradeLoad($id){
@@ -228,7 +234,11 @@ class DormatoryController extends Controller
     public function roomLoad($id){
         $current = Carbon::now();
 
-        $validity = Room::where('gender_id',$id)->where('validity','>',$current)->get();
+
+        $validity = Room::where('gender_id',$id)->where('start', '<=', $current)
+            ->where('validity', '>=', $current)
+            ->get();
+
         $filter_room = [];
         foreach($validity as $room){
            array_push($filter_room,$room->room_id);
@@ -249,6 +259,7 @@ class DormatoryController extends Controller
                'grade_id' => $request->grade_id,
                'gender_id' => $request->gender_id,
                'room_id' => $request->room_id,
+               'start' => $request->start,
                'validity' => $request->validity,
                'created_at' => Carbon::now(),
            ]);

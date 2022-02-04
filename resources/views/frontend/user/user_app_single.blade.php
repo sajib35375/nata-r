@@ -8,7 +8,7 @@
                     <h4 class="box-title">Personal <strong>Information</strong></h4>
                 </div>
                 <div class="box-body">
-                    <table class="table">
+                    <table class="table table-striped">
 
                         <tr>
                             <th>Full Name :</th>
@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table class="table">
+                    <table class="table table-striped">
 
                         <tr>
                             <th>Organization Name :</th>
@@ -133,7 +133,7 @@
                 </div>
 
                 <div class="box-body" style="display: block;">
-                    <table class="table">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th> Address </th>

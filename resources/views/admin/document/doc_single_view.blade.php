@@ -12,6 +12,7 @@
                         <h2>{{ $doc_single->title }}</h2>
                         <p>{{ $doc_single->description }}</p>
                         <iframe src="{{ URL::to('') }}/admin/syllabus/{{ $doc_single->file }}"></iframe>
+{{--                        <iframe src="https://view.officeapps.live.com/op/view.aspx?src={{ URL::to('') }}/admin/syllabus/{{ $doc_single->file }}" frameborder="0" style="width: 62%; min-height: 562px;"></iframe>--}}
                     </div>
                 </div>
             </div>

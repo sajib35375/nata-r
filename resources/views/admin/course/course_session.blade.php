@@ -5,58 +5,82 @@
     <div style="margin: 10px;" class="wrap">
 
         <div class="row">
-            <div class="col-md-8">
+
+            <div class="col-8">
                 @if(Session::has('success'))
                     <p class="alert alert-success">{{ Session::get('success') }}<button class="close" data-dismiss="alert">&times;</button></p>
                 @endif
                 @if($errors->any())
                     <p class="text-danger">{{ $errors->first() }}</p>
-                    @endif
-                <div class="card">
-                    <div class="card-header">
-                        <h2>All Batch</h2>
+                @endif
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">All Batch</h3>
                     </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Name</th>
-                                <th>Batch Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($asss as $d)
-{{--                                @dd($d->course_a)--}}
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="example5" class="table table-bordered table-striped" style="width:100%">
+                                <thead>
                                 <tr>
-                                    <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ $d->course_a->course_name }}</td>
-                                    <td>{{ $d->session_name }}</td>
-                                    <td>
-                                        @if($d->status==true)
-                                            <span class="badge badge-success">Active</span>
-                                        @else
-                                            <span class="badge badge-danger">Inactive</span>
-                                            @endif
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-info" href="{{ route('session.edit',$d->id) }}">Edit</a>
-                                        <a class="btn btn-danger" href="{{ route('session.delete',$d->id) }}">Delete</a>
-                                        @if($d->status==true)
-                                            <a class="btn btn-warning" href="{{ route('status.inactive',$d->id) }}"><i class="fa fa-thumbs-down"></i></a>
-                                        @else
-                                            <a class="btn btn-success" href="{{ route('status.active',$d->id) }}"><i class="fa fa-thumbs-up"></i></a>
-                                            @endif
-                                    </td>
+                                    <th>#</th>
+                                    <th>Course Name</th>
+                                    <th>Batch Name</th>
+                                    <th>Status</th>
+                                    <th width="30%">Action</th>
+
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+
+
+
+
+                                @foreach($asss as $d)
+                                    {{--                                @dd($d->course_a)--}}
+                                    <tr>
+                                        <td>{{ $loop->index+1 }}</td>
+                                        <td>{{ $d->course_a->course_name }}</td>
+                                        <td>{{ $d->session_name }}</td>
+                                        <td>
+                                            @if($d->status==true)
+                                                <span class="badge badge-success">Active</span>
+                                            @else
+                                                <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info" href="{{ route('session.edit',$d->id) }}">Edit</a>
+                                            <a class="btn btn-danger" href="{{ route('session.delete',$d->id) }}">Delete</a>
+                                            @if($d->status==true)
+                                                <a class="btn btn-warning" href="{{ route('status.inactive',$d->id) }}"><i class="fa fa-thumbs-down"></i></a>
+                                            @else
+                                                <a class="btn btn-success" href="{{ route('status.active',$d->id) }}"><i class="fa fa-thumbs-up"></i></a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Course Name</th>
+                                    <th>Batch Name</th>
+                                    <th>Status</th>
+                                    <th width="30%">Action</th>
+
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </div>
+
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">

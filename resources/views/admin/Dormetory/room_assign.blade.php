@@ -5,52 +5,87 @@
     <div style="margin: 10px;" class="wrap">
 
         <div class="row">
-            <div class="col-md-8">
-                @if(Session::has('success'))
-                    <p class="alert alert-success">{{ Session::get('success') }}<button class="close" data-dismiss="alert">&times;</button></p>
-                @endif
-                @if($errors->any())
-                    <p class="text-danger">{{ $errors->first() }}</p>
-                @endif
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Assign Dormatory Room List</h2>
+
+
+
+
+                    <div class="col-8">
+                        @if(Session::has('success'))
+                            <p class="alert alert-success">{{ Session::get('success') }}<button class="close" data-dismiss="alert">&times;</button></p>
+                        @endif
+                        @if($errors->any())
+                            <p class="text-danger">{{ $errors->first() }}</p>
+                        @endif
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Dormatory Room Assign</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table id="example5" class="table table-bordered table-striped" style="width:100%">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Dormatory Name</th>
+                                            <th>Grade Name</th>
+                                            <th>Gender</th>
+                                            <th>Room Name</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th width="20%">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+
+
+
+                                        @foreach( $show as $d )
+                                            <tr>
+                                                <td>{{ $loop->index+1 }}</td>
+                                                <td>{{ $d->apply_r->name_en }}</td>
+                                                <td>{{ $d->dormatory_r->dormatory_name }}</td>
+                                                <td>{{ $d->grade_r->grade_name }}</td>
+                                                <td>{{ $d->gender_r->gender }}</td>
+                                                <td>{{ $d->room_r->room_name }}</td>
+                                                <td>{{ $d->start }}</td>
+                                                <td>{{ $d->validity }}</td>
+                                                <td>
+                                                    <a class="btn btn-info" href="">Edit</a>
+                                                    <a class="btn btn-danger" href="">Delete</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Dormatory Name</th>
+                                            <th>Grade Name</th>
+                                            <th>Gender</th>
+                                            <th>Room Name</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th width="20%">Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
                     </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>User Name</th>
-                                <th>Dormatory Name</th>
-                                <th>Grade Name</th>
-                                <th>Gender Name</th>
-                                <th>Room Select</th>
-                                <th>Validity</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach( $room as $d )
-                                <tr>
-                                    <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ $d->apply_r->name_en }}</td>
-                                    <td>{{ $d->dormatory_r->dormatory_name }}</td>
-                                    <td>{{ $d->grade_r->grade_name }}</td>
-                                    <td>{{ $d->gender_r->gender }}</td>
-                                    <td>{{ $d->room_r->room_name }}</td>
-                                    <td>{{ $d->validity }}</td>
-                                    <td>
-                                        <a class="btn btn-info" href="">Edit</a>
-                                        <a class="btn btn-danger" href="">Delete</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+
+
+
+
+
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
@@ -108,7 +143,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="">Validity</label>
+                                <label for="">Start Date</label>
+                                <input name="start" class="form-control" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="">End Date</label>
                                 <input name="validity" class="form-control" type="date">
                             </div>
 
@@ -135,8 +174,9 @@
                         method:"GET",
                         dataType:"json",
                         success:function (data){
-                            var d = $('select[name="gender_id"]').empty();
 
+                            var d = $('select[name="gender_id"]').empty();
+                            $('select[name="gender_id"]').append('<option value="">-select-</option>');
                             $.each(data,function (key,value){
                                 $('select[name="gender_id"]').append('<option value="'+value.id+'">'+value.gender+'</option>');
                             })

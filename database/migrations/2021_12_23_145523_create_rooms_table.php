@@ -27,6 +27,7 @@ class CreateRoomsTable extends Migration
             $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
             $table->foreign('room_id')->references('id')->on('drooms')->onDelete('cascade');
             $table->date('validity')->nullable();
+            $table->date('start')->nullable();
             $table->timestamps();
         });
     }

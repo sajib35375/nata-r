@@ -24,6 +24,22 @@
                 </a>
             </li>
 
+            @php
+
+                $slider = (auth()->guard('admin')->user()->slider==1);
+                $course = (auth()->guard('admin')->user()->course==1);
+                $pro_info = (auth()->guard('admin')->user()->pro_info==1);
+                $per_info = (auth()->guard('admin')->user()->per_info==1);
+                $batch = (auth()->guard('admin')->user()->batch==1);
+                $syllabus = (auth()->guard('admin')->user()->syllabus==1);
+                $participants = (auth()->guard('admin')->user()->participants==1);
+                $post = (auth()->guard('admin')->user()->post==1);
+                $certificate = (auth()->guard('admin')->user()->certificate==1);
+                $dormatory = (auth()->guard('admin')->user()->dormatory==1);
+                $admin_role = (auth()->guard('admin')->user()->admin_role==1);
+            @endphp
+
+            @if($slider==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="message-circle"></i>
@@ -37,7 +53,9 @@
 
                 </ul>
             </li>
+            @endif
 
+            @if($course==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="mail"></i> <span>Course Create</span>
@@ -50,14 +68,14 @@
 
                 </ul>
             </li>
+@endif
 
 
 
 
 
 
-
-
+@if($pro_info==true)
 
             <li class="treeview">
                 <a href="#">
@@ -74,9 +92,9 @@
 
                 </ul>
             </li>
+@endif
 
-
-
+@if($per_info==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="inbox"></i>
@@ -92,8 +110,10 @@
 
                 </ul>
             </li>
+@endif
 
 
+    @if($batch==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="pie-chart"></i>
@@ -107,7 +127,10 @@
 
                 </ul>
             </li>
+@endif
 
+
+         @if($syllabus==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="pie-chart"></i>
@@ -121,7 +144,29 @@
 
                 </ul>
             </li>
+@endif
 
+
+
+           @if($admin_role==true)
+            <li class="treeview">
+                <a href="#">
+                    <i data-feather="pie-chart"></i>
+                    <span>Admin User</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('admin.user.role') }}"><i class="ti-more"></i>All Admin User</a></li>
+
+                </ul>
+            </li>
+@endif
+
+
+
+@if($participants==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="pie-chart"></i>
@@ -135,6 +180,9 @@
 
                 </ul>
             </li>
+@endif
+
+     @if($post==true)
 
             <li class="treeview">
                 <a href="#">
@@ -150,9 +198,11 @@
 
                 </ul>
             </li>
+@endif
 
 
 
+@if($certificate==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="pie-chart"></i>
@@ -167,9 +217,9 @@
 
                 </ul>
             </li>
+@endif
 
-
-
+@if($dormatory==true)
             <li class="treeview">
                 <a href="#">
                     <i data-feather="pie-chart"></i>
@@ -192,7 +242,7 @@
                 </ul>
             </li>
 
-
+@endif
 
 
 

@@ -30,7 +30,7 @@
                                 <td><img style="width: 50px;height: 50px;" src="{{ URL::to('') }}/certificate/signature/{{ $d->dg_photo }}" alt=""></td>
                                 <td>
                                     <a class="btn btn-danger" href="{{ route('certificate.view',$d->id) }}">Download</a>
-                                    <a class="btn btn-info" href="{{ route('release.latter',$d->id) }}">Latter</a>
+                                    <a class="btn btn-info" href="{{ route('release.latter',$d->id) }}">Letter</a>
 
                                 </td>
                             </tr>

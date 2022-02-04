@@ -34,6 +34,7 @@ class CreatePostsTable extends Migration
             $table->integer('nata_Strengthening')->nullable();
             $table->integer('resources')->nullable();
             $table->integer('notice')->nullable();
+            $table->integer('home')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

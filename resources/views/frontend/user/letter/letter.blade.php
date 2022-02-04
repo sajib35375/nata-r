@@ -102,18 +102,18 @@
 
     <table id="table1">
         <tr>
-            <th>SL</th>
+
             <th>Name</th>
             <th>Designation</th>
             <th>Organization</th>
         </tr>
         {{--        @php $i=1; @endphp--}}
-        @foreach($letter as $l)
+        @foreach($realese as $letter)
             <tr>
-                <td id="td_middle">{{ $loop->index+1 }}</td>
-                <td style="width:35%;">{{ $l->name_en }}</td>
-                <td style="width:25%;">{{ $l->designation }}</td>
-                <td style="width:35%;">{{ $l->organization_name }}</td>
+
+                <td style="width:35%;">{{ $letter->name_en }}</td>
+                <td style="width:25%;">{{ $letter->designation }}</td>
+                <td style="width:35%;">{{ $letter->organization_name }}</td>
             </tr>
             {{--        @php $i++; @endphp--}}
         @endforeach
@@ -129,19 +129,12 @@
         <p style="font-weight:bold;margin-bottom:2px;">A. Copy forwarded for kind information and necessary action ; (Not as seniority)</p>
         <table style="margin-left:16px">
 
-{{--            @foreach( $other as $l )--}}
-{{--            <tr>--}}
-{{--                <td style="border:0px;margin-right:3px">1</td>--}}
-{{--                <td style="border:0px">{{ $l->controlling_officer }},{{ $l->working_station }},{{ $l->organization_name }},{{ $l->prodistrict->district_name }}</td>--}}
-{{--            </tr>--}}
-
-{{--            @endforeach--}}
-                @foreach($orgs as $one)
+                @foreach($orgs as $letter)
                 <tr>
-                    <td style="border:0px;margin-right:3px">{{ $loop->index+1 }}</td>
-                    <td style="border:0px">{{ $one->controlling_officer }},{{ $one->working_station }},{{ $one->organization_name }},{{ $one->prodistrict->district_name }}</td>
+                    <td style="border:0px">{{ $loop->index + 1 }}</td>
+                    <td style="border:0px">{{ $letter->controlling_officer }},{{ $letter->working_station }},{{ $letter->organization_name }},{{ $letter->prodistrict->district_name }}</td>
                 </tr>
-                @endforeach
+            @endforeach
         </table>
     </div>
 

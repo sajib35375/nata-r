@@ -216,9 +216,13 @@ Route::get('change/pass/view',[App\Http\Controllers\UserController::class,'chang
 Route::post('change/pass',[App\Http\Controllers\UserController::class,'changePass'])->name('change.pass');
 Route::get('user/apply',[App\Http\Controllers\UserController::class,'userApply'])->name('user.apply');
 Route::get('user/apply/single/view/{id}',[App\Http\Controllers\UserController::class,'userApplySingle'])->name('user.apply.single');
-
-
-
-
+//applicant pannel certificate download
+Route::get('user/certificate',[App\Http\Controllers\ApplicantPanelController::class,'userCertificate'])->name('user.certificate');
+Route::get('user/certificate/download/{id}',[App\Http\Controllers\ApplicantPanelController::class,'userCertificateDownload'])->name('user.certificate.download');
+Route::get('user/letter/download/{id}',[App\Http\Controllers\ApplicantPanelController::class,'userLetterDownload'])->name('user.letter.download');
+//admin user_role
+Route::get('admin/user/role',[App\Http\Controllers\AdminUserController::class,'adminUser'])->name('admin.user.role');
+Route::get('add/admin/user/role',[App\Http\Controllers\AdminUserController::class,'addAdminUser'])->name('add.user.role');
+Route::post('store/admin/user/role',[App\Http\Controllers\AdminUserController::class,'storeAdminUser'])->name('store.user.role');
 
 
